@@ -80,6 +80,26 @@ app.post('/api/v1/palettes', (request, response) => {
     });
 });
 
+app.delete('/api/v1/palettes/:id', (request, response) => {
+  const { id } = request.params;
+
+  database('palettes').where('id', id).del()
+    .then( result => {
+      if (result) {
+        return response
+          .status(200)
+          .json({result: `${result} palette(s) deleted successfully.`})
+      } else {
+        return response
+          .status(404)
+          .send({error: 'You cannot delete what does not exist.'})
+      }
+    })
+    .catch( error => {
+      response.status(500).json({error})
+    })
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} server is listening on ${app.get('port')}.`)
 })
