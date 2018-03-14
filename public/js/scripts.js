@@ -109,7 +109,14 @@ const addNewProject = async event => {
   }
 }
 
+const addNewPalette = event => {
+  event.preventDefault()
+  let $hex = $('.main-palette-hex1')
+  console.log($hex.text())
+}
+
 $(document).ready(loadPage);
 $(document).keydown(getRandomPalette);
 $('.new-main-palette-button').click(setMainPalette);
 $('.new-project-form').submit(addNewProject);
+$('.new-palette-form').submit(addNewPalette);
