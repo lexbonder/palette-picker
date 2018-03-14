@@ -1,0 +1,107 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+h2, button {
+  font-size: 1.5em;
+  border: 2px solid black;
+  box-shadow: 3px 3px 0 black;
+  display: inline-block;
+  padding: 10px;
+}
+
+.main-palette {
+  width: fit-content;
+  margin: 10px auto;
+}
+
+.main-palette-slide1, 
+.main-palette-slide2,
+.main-palette-slide3,
+.main-palette-slide4,
+.main-palette-slide5 {
+  border: 5px solid black;
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.main-palette-hex1,
+.main-palette-hex2,
+.main-palette-hex3,
+.main-palette-hex4,
+.main-palette-hex5,
+.main-palette-lock1,
+.main-palette-lock2,
+.main-palette-lock3,
+.main-palette-lock4,
+.main-palette-lock5 {
+  display: block;
+  padding: 5px;
+  border: 2px solid black;
+  background-color: white;
+  width: fit-content;
+  margin: 0 auto 15px;
+}
+
+.main-palette-lock1,
+.main-palette-lock2,
+.main-palette-lock3,
+.main-palette-lock4,
+.main-palette-lock5 {
+  margin-top: 100px;
+}
+
+.new-main-palette-button {
+  display: block;
+  margin: auto;
+}
+
+form {
+  display: block;
+  width: fit-content;
+  margin: 20px auto;
+}
+
+.project-wrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+section {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  margin-top: 10px;
+}
+
+section * {
+  display: inline-block;
+}
+
+p {
+  text-align: right;
+  padding-right: 10px;
+}
+.saved-palette-slide {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+}
+
+.delete-palette {
+  border: none;
+  box-shadow: none;
+}
