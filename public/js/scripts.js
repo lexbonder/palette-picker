@@ -1,3 +1,4 @@
+
 const getRandomColor = () => {
   letters = '0123456789ABCDEF';
   let color = '#';
@@ -19,20 +20,10 @@ const getRandomPalette = () => {
 const setMainPalette = () => {
   const mainPalette = getRandomPalette()
   for (let i = 1; i <= 5; i++) {
+    //if // !hasclass locked --> 
     $(`.main-palette-slide${i}`).css('background-color', mainPalette[`color${i}`]);
     $(`.main-palette-hex${i}`).text(mainPalette[`color${i}`]);
   }
-  saveMainPalette(mainPalette)
-}
-
-const saveMainPalette = async mainPalette => {
-  const initialFetch = await fetch('http://localhost:3000/api/v1/main-palette', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({mainPalette})
-  })
 }
 
 const getProjects = async () => {
@@ -85,7 +76,7 @@ const getPalettes = async () => {
       </section>
     `)
     for (let i = 1; i <= 5; i++) {
-    $(`#palette${palette.id}-slide${i}`).css('background-color', palette.palette[`color${i}`]);
+    $(`#palette${palette.id}-slide${i}`).css('background-color', palette[`color${i}`]);
     }
   })
 }
@@ -100,7 +91,7 @@ const addNewProject = async event => {
   event.preventDefault();
   const $projectName = $('#new-project').val();
   try {
-    if($projectName) {
+    if ($projectName) {
       const initialFetch = await fetch('http://localhost:3000/api/v1/projects', {
         method: 'POST',
         headers: {
