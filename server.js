@@ -6,74 +6,79 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('./knexfile')[environment];
+const database = require('knex')(configuration);
+
 app.locals.title = 'Palette Picker';
 
 // Projects
 
-app.locals.projects = [
-  {id: 0, name: 'Project 1'},
-  {id: 1, name: 'Project 2'}
-]
-
 app.get('/api/v1/projects', (request, response) => {
-  response.status(200).json(app.locals.projects);
-})
+  database('projects').select()
+    .then( projects => {
+      response.status(200).json(projects);
+    })
+    .catch( error => {
+      response.status(500).json({error});
+    })
+});
 
 app.post('/api/v1/projects', (request, response) => {
   const { name } = request.body;
   if (!name) {
-    return response.status(422).send({error: 'No project name provided'});
-  } else {
-    const newProject = {id: Date.now(), name}
-    app.locals.projects.push(newProject)
-    return response.status(201).json(newProject)
+    return response
+      .status(422)
+      .send({error: 'No project name provided'});
   }
-})
+  database('projects').insert({ name }, 'id')
+    .then( project => {
+      response.status(201).json({id: project[0]})
+    })
+    .catch( error => {
+      response.status(500).json({ error })
+    })
+});
 
 // Palettes
 
-app.locals.palettes = [
-  { 
-    id: 0, 
-    projectId: 0, 
-    name: 'Palette 1',  
-    color1: '#133760', 
-    color2: '#6152A2',
-    color3: '#79A8D7',
-    color4: '#A8C3C8',
-    color5: '#FCE5A3'
-  },
-  { 
-    id: 1,
-    projectId: 0,
-    name: 'Warm Combo', 
-    color1: '#C03A31', 
-    color2: '#5E0E07',
-    color3: '#F39C39',
-    color4: '#B87F9E',
-    color5: '#DDDDDD'
-  },
-  { 
-    id: 2,
-    projectId: 1,
-    name: 'Nature', 
-    color1: '#469A30', 
-    color2: '#BDD5AC',
-    color3: '#314C1C',
-    color4: '#FCE5A3',
-    color5: '#7FA4AE'
-  }
-]
-
 app.get('/api/v1/palettes', (request, response) => {
-  response.status(200).json(app.locals.palettes);
-})
+  database('palettes').select()
+    .then( palettes => {
+      response.status(200).json(palettes);
+    })
+    .catch( error => {
+      response.status(500).json({error});
+    })
+});
 
 app.post('/api/v1/palettes', (request, response) => {
-  const {newPalette} = request.body;
-  app.locals.palettes.push({id: Date.now(), ...newPalette})
-  response.status(200).json()
-})
+  const { newPalette } = request.body;
+
+  for ( let requiredParameter of [
+    'project_id', 'name', 'color1', 'color2',
+    'color3', 'color4', 'color5'
+  ]) {
+    if (!newPalette[requiredParameter]) {
+      return response
+        .status(422)
+        .send({ error: `Expected format: {
+          project_id: <Integer>, name: <String>,
+          color1: <String>, color2: <String>,
+          color3: <String>, color4: <String>,
+          color5: <String> }.
+          You're missing ${requiredParameter}`})
+    }
+  }
+
+  database('palettes').insert(newPalette, 'id')
+    .then( palette => {
+      response.status(201).json({id: palette[0]});
+    })
+    .catch( error => {
+      response.status(500).json({error});
+    });
+});
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} server is listening on ${app.get('port')}.`)

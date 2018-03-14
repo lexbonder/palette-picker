@@ -45,7 +45,7 @@ const getPalettes = async () => {
   const initialFetch = await fetch('http://localhost:3000/api/v1/palettes');
   const palettes = await initialFetch.json();
   palettes.forEach(palette => {
-    $(`#project${palette.projectId}`).append(`
+    $(`#project${palette.project_id}`).append(`
       <section id="palette${palette.id}">
         <p>${palette.name}</p>
         <div>
