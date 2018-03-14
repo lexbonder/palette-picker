@@ -91,19 +91,15 @@ const addNewProject = async event => {
   event.preventDefault();
   const $projectName = $('#new-project').val();
   try {
-    if ($projectName) {
-      const initialFetch = await fetch('http://localhost:3000/api/v1/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: JSON.stringify({name: $projectName})
-      });
-      const project = await initialFetch.json();
-      renderProject(project)
-    } else {
-      throw Error('Project name not provided')
-    }
+    const initialFetch = await fetch('http://localhost:3000/api/v1/projects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify({name: $projectName})
+    });
+    const project = await initialFetch.json();
+    renderProject(project) 
   } catch (error) {
     alert(error.message)
   }
@@ -111,8 +107,28 @@ const addNewProject = async event => {
 
 const addNewPalette = event => {
   event.preventDefault()
-  let $hex = $('.main-palette-hex1')
-  console.log($hex.text())
+  let newPalette = {}
+  for ( let i = 1; i <= 5; i++ ) {
+    newPalette[`color${i}`] = $(`.main-palette-hex${i}`).text()
+  }
+  newPalette.name = $('.palette-name-input').val()
+  newPalette.project_id = $('#select-project').val()
+  console.log(newPalette)
+}
+
+const saveNewPalette = async newPalette => {
+  try {
+    const initialFetch = await fetch('http://localhost:3000/api/v1/palettes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newPalette)
+    });
+    const response = await initialFetch.json();
+  } catch (error) {
+    alert(error.message)
+  }
 }
 
 $(document).ready(loadPage);

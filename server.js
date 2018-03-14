@@ -69,6 +69,12 @@ app.get('/api/v1/palettes', (request, response) => {
   response.status(200).json(app.locals.palettes);
 })
 
+app.post('/api/v1/palettes', (request, response) => {
+  const {newPalette} = request.body;
+  app.locals.palettes.push({id: Date.now(), ...newPalette})
+  response.status(200).json()
+})
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} server is listening on ${app.get('port')}.`)
 })
