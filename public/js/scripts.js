@@ -45,43 +45,47 @@ const getPalettes = async () => {
   const initialFetch = await fetch('http://localhost:3000/api/v1/palettes');
   const palettes = await initialFetch.json();
   palettes.forEach(palette => {
-    $(`#project${palette.project_id}`).append(`
-      <section id="palette${palette.id}">
-        <p>${palette.name}</p>
-        <div>
-          <div 
-            id="palette${palette.id}-slide1" 
-            class="saved-palette-slide">
-          </div>
-          <div 
-            id="palette${palette.id}-slide2" 
-            class="saved-palette-slide">
-          </div>
-          <div 
-            id="palette${palette.id}-slide3" 
-            class="saved-palette-slide">
-          </div>
-          <div 
-            id="palette${palette.id}-slide4" 
-            class="saved-palette-slide">
-          </div>
-          <div 
-            id="palette${palette.id}-slide5" 
-            class="saved-palette-slide">
-          </div>
-        </div>
-          <img
-            src='https://use.fontawesome.com/releases/v5.0.8/svgs/regular/trash-alt.svg'
-            class='delete-palette trash'
-            id="${palette.id}"
-            alt='Delete Button'
-          />
-      </section>
-    `)
-    for (let i = 1; i <= 5; i++) {
-    $(`#palette${palette.id}-slide${i}`).css('background-color', palette[`color${i}`]);
-    }
+    renderPalette(palette)
   })
+}
+
+const renderPalette = palette => {
+  $(`#project${palette.project_id}`).append(`
+    <section id="palette${palette.id}">
+      <p>${palette.name}</p>
+      <div>
+        <div 
+          id="palette${palette.id}-slide1" 
+          class="saved-palette-slide">
+        </div>
+        <div 
+          id="palette${palette.id}-slide2" 
+          class="saved-palette-slide">
+        </div>
+        <div 
+          id="palette${palette.id}-slide3" 
+          class="saved-palette-slide">
+        </div>
+        <div 
+          id="palette${palette.id}-slide4" 
+          class="saved-palette-slide">
+        </div>
+        <div 
+          id="palette${palette.id}-slide5" 
+          class="saved-palette-slide">
+        </div>
+      </div>
+        <img
+          src='https://use.fontawesome.com/releases/v5.0.8/svgs/regular/trash-alt.svg'
+          class='delete-palette trash'
+          id="${palette.id}"
+          alt='Delete Button'
+        />
+    </section>
+  `)
+  for (let i = 1; i <= 5; i++) {
+  $(`#palette${palette.id}-slide${i}`).css('background-color', palette[`color${i}`]);
+  }
 }
 
 const loadPage = () => {
@@ -116,7 +120,7 @@ const addNewPalette = event => {
   }
   newPalette.name = $('.palette-name-input').val()
   newPalette.project_id = $('#select-project').val()
-  console.log(newPalette)
+  saveNewPalette(newPalette)
 }
 
 const saveNewPalette = async newPalette => {
@@ -129,6 +133,8 @@ const saveNewPalette = async newPalette => {
       body: JSON.stringify(newPalette)
     });
     const response = await initialFetch.json();
+    // console.log(response)
+    renderPalette(response)
   } catch (error) {
     alert(error.message)
   }

@@ -53,12 +53,8 @@ app.get('/api/v1/palettes', (request, response) => {
 });
 
 app.post('/api/v1/palettes', (request, response) => {
-  const { newPalette } = request.body;
-
-  for ( let requiredParameter of [
-    'project_id', 'name', 'color1', 'color2',
-    'color3', 'color4', 'color5'
-  ]) {
+  const newPalette = request.body;
+  for ( let requiredParameter of ['project_id', 'name', 'color1', 'color2', 'color3', 'color4', 'color5']) {
     if (!newPalette[requiredParameter]) {
       return response
         .status(422)
@@ -73,7 +69,7 @@ app.post('/api/v1/palettes', (request, response) => {
 
   database('palettes').insert(newPalette, 'id')
     .then( palette => {
-      response.status(201).json({id: palette[0]});
+      response.status(201).json({id: palette[0], ...newPalette});
     })
     .catch( error => {
       response.status(500).json({error});
