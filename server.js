@@ -33,7 +33,7 @@ app.post('/api/v1/projects', (request, response) => {
   }
   database('projects').insert({ name }, 'id')
     .then( project => {
-      response.status(201).json({id: project[0]})
+      response.status(201).json({id: project[0], name})
     })
     .catch( error => {
       response.status(500).json({ error })
@@ -103,3 +103,5 @@ app.delete('/api/v1/palettes/:id', (request, response) => {
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} server is listening on ${app.get('port')}.`)
 })
+
+module.exports = app;
