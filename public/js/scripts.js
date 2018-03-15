@@ -70,9 +70,12 @@ const getPalettes = async () => {
             class="saved-palette-slide">
           </div>
         </div>
-        <button class='delete-palette'>
-          <i class="far fa-trash-alt"></i>
-        </button>
+          <img
+            src='https://use.fontawesome.com/releases/v5.0.8/svgs/regular/trash-alt.svg'
+            class='delete-palette trash'
+            id="${palette.id}"
+            alt='Delete Button'
+          />
       </section>
     `)
     for (let i = 1; i <= 5; i++) {
@@ -131,8 +134,23 @@ const saveNewPalette = async newPalette => {
   }
 }
 
+const manipulatePalettes = (event) => {
+  const { classList, id } = event.target;
+  if (classList.contains('delete-palette')) {
+    deletePalette(id)    
+  }
+}
+
+const deletePalette = async id => {
+  const initialFetch = await fetch(`http://localhost:3000/api/v1/palettes/${id}`, {
+    method: 'DELETE'
+  })
+  $(`#palette${id}`).remove();
+}
+
 $(document).ready(loadPage);
 $(document).keydown(getRandomPalette);
 $('.new-main-palette-button').click(setMainPalette);
 $('.new-project-form').submit(addNewProject);
 $('.new-palette-form').submit(addNewPalette);
+$('.project-wrapper').click(manipulatePalettes);

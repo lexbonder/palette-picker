@@ -106,3 +106,8 @@ p {
   border: none;
   box-shadow: none;
 }
+
+.trash {
+  width: 20px;
+  margin: 10px;
+}
