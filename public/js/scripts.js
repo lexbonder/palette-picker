@@ -133,7 +133,6 @@ const saveNewPalette = async newPalette => {
       body: JSON.stringify(newPalette)
     });
     const response = await initialFetch.json();
-    // console.log(response)
     renderPalette(response)
   } catch (error) {
     alert(error.message)

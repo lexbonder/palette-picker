@@ -60,6 +60,7 @@ h2, button {
 .main-palette-lock4,
 .main-palette-lock5 {
   margin-top: 100px;
+  width: 30px;
 }
 
 .new-main-palette-button {
