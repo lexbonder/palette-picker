@@ -20,9 +20,10 @@ const getRandomPalette = () => {
 const setMainPalette = () => {
   const mainPalette = getRandomPalette()
   for (let i = 1; i <= 5; i++) {
-    //if // !hasclass locked --> 
-    $(`.main-palette-slide${i}`).css('background-color', mainPalette[`color${i}`]);
-    $(`.main-palette-hex${i}`).text(mainPalette[`color${i}`]);
+    if (!$(`.main-palette-slide${i}`).hasClass('locked')) {
+      $(`.main-palette-slide${i}`).css('background-color', mainPalette[`color${i}`]);
+      $(`.main-palette-hex${i}`).text(mainPalette[`color${i}`]);
+    }
   }
 }
 
@@ -153,9 +154,17 @@ const deletePalette = async id => {
   $(`#palette${id}`).remove();
 }
 
+const toggleColorLock = event => {
+  const slide = (event.target.classList[0]);
+  $(`.${slide}`).parent().toggleClass('locked')
+}
+
 $(document).ready(loadPage);
 $(document).keydown(getRandomPalette);
 $('.new-main-palette-button').click(setMainPalette);
 $('.new-project-form').submit(addNewProject);
 $('.new-palette-form').submit(addNewPalette);
 $('.project-wrapper').click(manipulatePalettes);
+for ( let i = 1; i <= 5; i++ ) {
+  $(`.main-palette-lock${i}`).click(toggleColorLock);
+}
