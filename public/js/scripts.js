@@ -106,7 +106,11 @@ const addNewProject = async event => {
       body: JSON.stringify({name: $projectName})
     });
     const project = await initialFetch.json();
-    renderProject(project) 
+    if (initialFetch.status === 201) {
+      renderProject(project) 
+    } else {
+      throw Error(project.error)
+    }
   } catch (error) {
     alert(error.message)
   }

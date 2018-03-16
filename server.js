@@ -32,13 +32,26 @@ app.post('/api/v1/projects', (request, response) => {
       .send({error: 'No project name provided'});
   }
 
-  database('projects').insert({ name }, 'id')
-    .then( project => {
-      response.status(201).json({id: project[0], name})
+  database('projects').where('name', name).select()
+    .then(result => {
+      if (result.length) {
+        return response
+          .status(400)
+          .send({error: 'That project name already exists'});
+      } else {
+        database('projects').insert({ name }, 'id')
+          .then( project => {
+            response.status(201).json({id: project[0], name});
+          })
+          .catch( error => {
+            response.status(500).json({ error });
+          });
+      }
     })
     .catch( error => {
-      response.status(500).json({ error })
-    })
+      response.status(500).json({ error });
+    });
+
 });
 
 // Palettes
