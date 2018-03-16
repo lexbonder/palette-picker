@@ -27,7 +27,7 @@ const setMainPalette = mainPalette => {
 }
 
 const getProjects = async () => {
-  const initialFetch = await fetch('http://localhost:3000/api/v1/projects');
+  const initialFetch = await fetch('/api/v1/projects');
   const projects = await initialFetch.json();
   projects.forEach(project => renderProject(project));
 }
@@ -42,7 +42,7 @@ const renderProject = project => {
 }
 
 const getPalettes = async () => {
-  const initialFetch = await fetch('http://localhost:3000/api/v1/palettes');
+  const initialFetch = await fetch('/api/v1/palettes');
   const palettes = await initialFetch.json();
   palettes.forEach(palette => {
     renderPalette(palette)
@@ -98,7 +98,7 @@ const addNewProject = async event => {
   event.preventDefault();
   const $projectName = $('#new-project').val();
   try {
-    const initialFetch = await fetch('http://localhost:3000/api/v1/projects', {
+    const initialFetch = await fetch('/api/v1/projects', {
       method: 'POST',
       headers: {
         'Content-Type': "application/json"
@@ -125,7 +125,7 @@ const addNewPalette = event => {
 
 const saveNewPalette = async newPalette => {
   try {
-    const initialFetch = await fetch('http://localhost:3000/api/v1/palettes', {
+    const initialFetch = await fetch('/api/v1/palettes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -150,7 +150,7 @@ const manipulatePalettes = event => {
 }
 
 const deletePalette = async id => {
-  const initialFetch = await fetch(`http://localhost:3000/api/v1/palettes/${id}`, {
+  const initialFetch = await fetch(`/api/v1/palettes/${id}`, {
     method: 'DELETE'
   })
   $(`#palette${id}`).remove();
