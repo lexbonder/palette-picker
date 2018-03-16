@@ -31,6 +31,7 @@ app.post('/api/v1/projects', (request, response) => {
       .status(422)
       .send({error: 'No project name provided'});
   }
+
   database('projects').insert({ name }, 'id')
     .then( project => {
       response.status(201).json({id: project[0], name})
