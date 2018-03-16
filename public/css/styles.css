@@ -60,7 +60,21 @@ h2, button {
 .main-palette-lock4,
 .main-palette-lock5 {
   margin-top: 100px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
+  background-image: url(https://use.fontawesome.com/releases/v5.0.8/svgs/solid/lock-open.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25px;
+}
+
+.locked .main-palette-lock1,
+.locked .main-palette-lock2,
+.locked .main-palette-lock3,
+.locked .main-palette-lock4,
+.locked .main-palette-lock5 {
+  background-image: url(https://use.fontawesome.com/releases/v5.0.8/svgs/solid/lock.svg);
+  background-size: 20px;
 }
 
 .new-main-palette-button {
