@@ -11,14 +11,13 @@ const getRandomColor = () => {
 const getRandomPalette = () => {
   const palette = {}
   for (let i = 1; i <= 5; i++) {
-    const randomColor = getRandomColor()
+    let randomColor = getRandomColor()
     palette[`color${i}`] = randomColor;
   }
-  return palette;
+  setMainPalette(palette);
 }
 
-const setMainPalette = () => {
-  const mainPalette = getRandomPalette()
+const setMainPalette = mainPalette => {
   for (let i = 1; i <= 5; i++) {
     if (!$(`.main-palette-slide${i}`).hasClass('locked')) {
       $(`.main-palette-slide${i}`).css('background-color', mainPalette[`color${i}`]);
@@ -52,9 +51,9 @@ const getPalettes = async () => {
 
 const renderPalette = palette => {
   $(`#project${palette.project_id}`).append(`
-    <section id="palette${palette.id}">
+    <section class="saved-palette" id="palette${palette.id}">
       <p>${palette.name}</p>
-      <div>
+      <div class='saved-palette-wrapper'>
         <div 
           id="palette${palette.id}-slide1" 
           class="saved-palette-slide">
@@ -90,7 +89,7 @@ const renderPalette = palette => {
 }
 
 const loadPage = () => {
-  setMainPalette()
+  getRandomPalette()
   getProjects()
   getPalettes()
 }
@@ -140,10 +139,13 @@ const saveNewPalette = async newPalette => {
   }
 }
 
-const manipulatePalettes = (event) => {
+const manipulatePalettes = event => {
   const { classList, id } = event.target;
-  if (classList.contains('delete-palette')) {
+  if (classList[0] === 'delete-palette') {
     deletePalette(id)    
+  } else if (event.target.closest('section')) {
+    const paletteId = event.target.closest('section').id;
+    selectPalette(paletteId)
   }
 }
 
@@ -154,14 +156,30 @@ const deletePalette = async id => {
   $(`#palette${id}`).remove();
 }
 
+const selectPalette = paletteId => {
+  const selectedPalette = {}
+  for ( let i = 1; i <= 5; i++) {
+    selectedPalette[`color${i}`] = $(`#${paletteId}-slide${i}`).css('backgroundColor')
+  }
+  setMainPalette(selectedPalette)
+}
+
 const toggleColorLock = event => {
   const slide = (event.target.classList[0]);
   $(`.${slide}`).parent().toggleClass('locked')
 }
 
 $(document).ready(loadPage);
-$(document).keydown(getRandomPalette);
-$('.new-main-palette-button').click(setMainPalette);
+$(document).on('keypress', (event) => {
+  if (event.keyCode === 32 &&
+    !$(document.activeElement).hasClass('palette-name-input') &&
+    !$(document.activeElement).hasClass('new-project') &&
+    !$(document.activeElement).hasClass('new-main-palette-button')
+  ) {
+    getRandomPalette()
+  }
+});
+$('.new-main-palette-button').click(getRandomPalette);
 $('.new-project-form').submit(addNewProject);
 $('.new-palette-form').submit(addNewPalette);
 $('.project-wrapper').click(manipulatePalettes);
