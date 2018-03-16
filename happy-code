@@ -1,0 +1,26 @@
+const getRandomColor = () => {
+  letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
+  }
+  return color;
+}
+
+const getRandomPalette = () => {
+  const palette = {}
+  for (let i = 1; i <= 5; i++) {
+    let randomColor = getRandomColor()
+    palette[`color${i}`] = randomColor;
+  }
+  setMainPalette(palette);
+}
+
+const setMainPalette = mainPalette => {
+  for (let i = 1; i <= 5; i++) {
+    if (!$(`.main-palette-slide${i}`).hasClass('locked')) {
+      $(`.main-palette-slide${i}`).css('background-color', mainPalette[`color${i}`]);
+      $(`.main-palette-hex${i}`).text(mainPalette[`color${i}`]);
+    }
+  }
+}
