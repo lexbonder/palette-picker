@@ -6,6 +6,10 @@ Palette Picker is an application that allows a user to find random color palette
 
 The purpose of this project was designed to introduce us to backend languages in JavaScript.
 
+[Project Spec](http://frontend.turing.io/projects/palette-picker.html)
+
+[Live on Heroku](https://palette-picker-lexbonder.herokuapp.com/)
+
 ## Project Goals
 
 * Create our own backend server using Node.js and Express
