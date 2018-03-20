@@ -12,16 +12,14 @@ const database = require('knex')(configuration);
 
 app.locals.title = 'Palette Picker';
 
-const requireHTTPS = (request, response, next) => {
-  if ( req.headers['x-forwarded-proto'] !== 'https') {
-    return response.redirect('https://' + request.get('host') + request.url);
+const requireHTTPS = (req, res, next) => {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect('https://' + req.get('host') + req.url);
   }
-  next();
-}
+    next();
+};
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(requireHTTPS);
-}
+if (process.env.NODE_ENV === 'production') { app.use(requireHTTPS); }
 
 // Projects
 
