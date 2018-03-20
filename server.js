@@ -12,14 +12,9 @@ const database = require('knex')(configuration);
 
 app.locals.title = 'Palette Picker';
 
-app.use('/', function(request, response, next) {
-  if(!request.secure && process.env.NODE_ENV === 'production') {
-    var secureUrl = "https://" + request.headers['host'] + request.url; 
-    response.writeHead(301, { "Location":  secureUrl });
-    response.end();
-  }
-  next();
-});
+app.get('/', function(req, res) {  
+    res.redirect('https://' + req.headers.host + req.url);
+})
 
 // Projects
 
