@@ -12,6 +12,15 @@ const database = require('knex')(configuration);
 
 app.locals.title = 'Palette Picker';
 
+app.use('/', function(request, response, next) {
+  if(!request.secure && process.env.NODE_ENV === 'production') {
+    var secureUrl = "https://" + request.headers['host'] + request.url; 
+    response.writeHead(301, { "Location":  secureUrl });
+    response.end();
+  }
+  next();
+});
+
 // Projects
 
 app.get('/api/v1/projects', (request, response) => {
