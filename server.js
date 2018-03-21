@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 
 app.set('port', process.env.PORT || 3000);
-app.use(express.static('public'));
 app.use(bodyParser.json());
 
 const environment = process.env.NODE_ENV || 'development';
@@ -20,6 +19,7 @@ const requireHTTPS = (req, res, next) => {
 };
 
 if (process.env.NODE_ENV === 'production') { app.use(requireHTTPS); }
+app.use(express.static('public'));
 
 // Projects
 
