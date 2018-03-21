@@ -19,6 +19,7 @@ const requireHTTPS = (req, res, next) => {
 };
 
 if (process.env.NODE_ENV === 'production') { app.use(requireHTTPS); }
+
 app.use(express.static('public'));
 
 // Projects

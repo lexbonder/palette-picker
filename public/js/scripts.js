@@ -88,10 +88,10 @@ const renderPalette = palette => {
   }
 }
 
-const loadPage = () => {
+const loadPage = async () => {
   getRandomPalette()
-  getProjects()
-  getPalettes()
+  await getProjects()
+  await getPalettes()
 }
 
 const addNewProject = async event => {
