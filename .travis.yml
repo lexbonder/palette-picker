@@ -1,6 +1,3 @@
-{
-  "language": "javascript",
-  "os": "ios",
-  "group": "stable",
-  "dist": "trusty"
-}
+language: node_js
+node_js:
+  - node
