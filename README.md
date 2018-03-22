@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lexbonder/palette-picker.svg?branch=master)](https://travis-ci.org/lexbonder/palette-picker)
+
 # Palette Picker - Alex Bonder - (FE Mod 4)
 
 ## Synopsis
